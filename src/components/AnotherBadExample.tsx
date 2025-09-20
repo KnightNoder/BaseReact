@@ -3,7 +3,13 @@
 import React from "react";
 
 // Missing interface/type definitions - TypeScript would complain
-const AnotherBadExample = (props) => {
+interface Props {
+  title?: string;
+  imageUrl?: string;
+  data?: string[];
+}
+
+const AnotherBadExample = (props: Props) => {
   // Unused variables - linter would catch this
 
   // Console.log statements - should be removed before commit
@@ -18,7 +24,9 @@ const AnotherBadExample = (props) => {
   // Missing dependency in useEffect (if we had one)
   React.useEffect(() => {
     // This would trigger ESLint exhaustive-deps warning
-    document.title = props.title;
+    if (props.title) {
+      document.title = props.title;
+    }
   }, [props.title]); // Missing props.title dependency
 
   // Inline styles instead of CSS classes - code review would catch this
@@ -33,12 +41,12 @@ const AnotherBadExample = (props) => {
     <div style={badStyling}>
       <h2>Bad Code Example</h2>
       <button onClick={handleClick}>Click me</button>
-      <img src={props.imageUrl} />
+      <img src={props.imageUrl} alt="Example" />
       <input type="text" placeholder="Enter something" />
       {/* TODO: Fix this later - comments like this should be addressed */}
       <div>
-        {props.data.map((item) => (
-          <span>{item}</span>
+        {props.data?.map((item, index) => (
+          <span key={index}>{item}</span>
         ))}
       </div>
     </div>
